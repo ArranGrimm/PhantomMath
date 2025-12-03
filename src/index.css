@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  /* P5 核心色板 */
+  --color-danger-red: #D81326;
+  --color-deep-black: #000000;
+  --color-rough-white: #F0F0F0;
+  --color-star-yellow: #F9E23D;
+  
+  /* 扩展动画 */
+  --animate-glitch: glitch 1s linear infinite;
+  
+  @keyframes glitch {
+    2%, 64% { transform: translate(2px,0) skew(0deg); }
+    4%, 60% { transform: translate(-2px,0) skew(0deg); }
+    62% { transform: translate(0,0) skew(5deg); }
+  }
+}
+
+@layer base {
+  :root {
+    /* 默认背景色和文字颜色 */
+    @apply bg-deep-black text-rough-white font-sans;
+    /* 禁止移动端默认的长按选中和高亮 */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  body {
+    @apply m-0 min-h-screen overflow-hidden;
+  }
+}
+
+/* 全局工具类：锯齿切割 */
+@layer utilities {
+  .clip-trapezoid {
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+  }
+  
+  .clip-jagged {
+    clip-path: polygon(
+      0% 0%, 100% 0%, 
+      100% 85%, 95% 90%, 90% 85%, 85% 90%, 80% 85%, 75% 90%, 
+      70% 85%, 65% 90%, 60% 85%, 55% 90%, 50% 85%, 45% 90%, 
+      40% 85%, 35% 90%, 30% 85%, 25% 90%, 20% 85%, 15% 90%, 
+      10% 85%, 5% 90%, 0% 85%
+    );
+  }
+}
