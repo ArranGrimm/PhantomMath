@@ -9,14 +9,14 @@
 
 ## Phase 1: 原型开发 (Prototype)
 - [x] **Splash Screen**: 实现 P5 风格的启动页与“玻璃破碎”转场动画 (`src/views/Splash.tsx`)
-- [x] **UI Components**: 实现基础的锯齿按钮 (`JaggedButton`)
 - [x] **Daytime Hub (表世界)**: 
-    - [x] `SubwayBackground`: 
-        - [x] 动态光影与吊环摇晃动画
-        - [x] **集成视频素材**: 窗外赛博都市风景 (`subway-view-loop.mp4`)
-        - [x] 静态资源服务配置 (`Bun.serve` in `src/index.ts`)
-    - [x] `PhoneMenu`: 仿 P5 IM 风格的手机菜单
-    - [x] `DaytimeHub`: 视图整合与日期显示
+    - [x] `SubwayBackground`: 集成视频背景、动态光影与物理吊环动画。
+    - [x] `PhoneMenu`: 仿 P5 IM 风格的手机菜单。
+    - [x] **Daily Requests (每日委托)**:
+        - [x] `Math Engine`: 基础计算与逻辑排队题生成器 (`src/features/math/`)。
+        - [x] `DailyRequests View`: 沉浸式答题界面。
+        - [x] `NumPad`: P5 风格自适应数字键盘。
+        - [x] `LogicQueue`: 排队问题可视化组件。
 - [ ] **Nighttime Hub (里世界)**: 
     - [ ] `MetaNavTransition`: 红黑同心圆转场动画
     - [ ] 搭建扭曲空间基础布局

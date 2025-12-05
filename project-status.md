@@ -1,19 +1,20 @@
 # 项目状态 (Project Status)
 
-**当前阶段**: Phase 1 - Prototype (Daytime Hub Completed)
+**当前阶段**: Phase 1 - Prototype (Math Engine & Requests)
 **最近更新**: 2025-12-04
 
 ## 关键进展
-1.  **Daytime Hub 完成**: 成功实现了具有高度沉浸感的地铁场景。
-    *   引入了 `video` 标签播放窗外循环风景。
-    *   通过 `src/index.ts` 解决了 Bun 开发服务器无法服务 `public` 静态资源的问题。
-    *   增加了噪点滤镜、动态光影和物理吊环动画。
-2.  **Splash Screen**: 启动页逻辑稳定，转场流畅。
+1.  **Math Engine (数学引擎)**: 初步构建了题目生成工厂，支持 `CALCULATION` (基础计算) 和 `LOGIC_QUEUE` (排队逻辑) 两类题型。
+2.  **Daily Requests UI**: 实现了基于手机短信风格的答题界面。
+    *   **NumPad**: 优化了响应式布局，解决了移动端/宽屏下的显示问题。
+    *   **LogicQueue**: 实现了排队题的可视化渲染。
+3.  **Daytime Hub**: 完成了从 Splash -> Subway -> Phone -> Requests 的完整交互链路。
 
 ## 技术笔记
-- **静态资源**: 所有大体积媒体文件统一放置在 `public/assets/` 下，由 `Bun.serve` 的自定义 `fetch` 逻辑进行服务。
-- **性能监控**: 目前视频背景在移动端表现流畅，需持续关注电量消耗。
+- **Math Generator**: 目前难度固定为 Lv1，随机种子逻辑需进一步优化以提升体感随机性。
+- **UI/UX**: `NumPad` 采用底部吸附 + 最大宽度限制策略，确保在 iPad/Desktop 上不失真。
 
-## 下一步计划
-- 实现 **MetaNav 转场**: 从表世界进入里世界的视觉过渡。
-- 构建 **Nighttime Hub**: 里世界的入口大厅。
+## 待办事项 (Backlog)
+- **经济系统接入**: 答对题目的金币/卡牌奖励动画。
+- **更多题型**: 实现“图形代数”和“空间方块”生成器。
+- **MetaNav 转场**: 进入里世界的视觉过渡。

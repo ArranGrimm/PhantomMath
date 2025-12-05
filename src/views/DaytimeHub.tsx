@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SubwayBackground } from '../components/daytime/SubwayBackground';
 import { PhoneMenu } from '../components/daytime/PhoneMenu';
-import { motion } from 'framer-motion';
+import { DailyRequests } from './DailyRequests';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const DaytimeHub: React.FC = () => {
+  const [activeApp, setActiveApp] = useState<string | null>(null);
+
+  const handleAppSelect = (appId: string) => {
+    setActiveApp(appId);
+  };
+
+  const handleCloseApp = () => {
+    setActiveApp(null);
+  };
+
   return (
     <div className="relative w-full h-full overflow-hidden">
       {/* 1. 动态背景 (地铁隧道 + 城市剪影) */}
@@ -31,12 +42,32 @@ export const DaytimeHub: React.FC = () => {
 
         {/* 
             右侧手机菜单
-            注意：PhoneMenu 内部需要 pointer-events-auto 
-            因为父容器是 pointer-events-none 
+            当有应用打开时，手机向右滑出屏幕 (或者淡出)
         */}
-        <div className="pointer-events-auto w-full h-full">
-            <PhoneMenu />
-        </div>
+        <AnimatePresence>
+          {!activeApp && (
+            <div className="pointer-events-auto w-full h-full absolute inset-0">
+                <PhoneMenu onSelectApp={handleAppSelect} />
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* 3. 打开的应用视图 (全屏覆盖) */}
+        <AnimatePresence>
+          {activeApp === 'requests' && (
+            <div className="pointer-events-auto absolute inset-0 z-50">
+              <motion.div 
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+                className="w-full h-full"
+              >
+                <DailyRequests onBack={handleCloseApp} />
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

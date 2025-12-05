@@ -18,7 +18,7 @@ const MENU_ITEMS = [
   { id: 'profile', label: 'Phantom', icon: UserIcon, color: 'text-gray-300' },
 ];
 
-export const PhoneMenu: React.FC = () => {
+export const PhoneMenu: React.FC<{ onSelectApp: (id: string) => void }> = ({ onSelectApp }) => {
   return (
     <motion.div 
       className="absolute bottom-4 right-4 md:right-12 md:bottom-12 w-64 md:w-72 z-30 perspective-1000"
@@ -51,6 +51,7 @@ export const PhoneMenu: React.FC = () => {
              {MENU_ITEMS.map((item) => (
                <motion.button
                  key={item.id}
+                 onClick={() => onSelectApp(item.id)}
                  whileHover={{ scale: 1.05, x: 5 }}
                  whileTap={{ scale: 0.95 }}
                  className={`
