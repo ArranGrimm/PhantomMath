@@ -2,7 +2,7 @@ export enum QuestionType {
   CALCULATION = 'CALCULATION',   // 基础计算
   LOGIC_QUEUE = 'LOGIC_QUEUE',   // 排队问题
   ALGEBRA_SHAPE = 'ALGEBRA_SHAPE', // 图形代数
-  SPATIAL_CUBE = 'SPATIAL_CUBE',   // 空间方块 (待实现)
+  SPATIAL_CUBE = 'SPATIAL_CUBE',   // 空间方块
   MATCHSTICK = 'MATCHSTICK',       // 火柴棒 (待实现)
 }
 
@@ -30,7 +30,12 @@ export interface Question {
       formulas: Array<{ left: string[], result: number }>; // 算式列表
       targetVarId: string; // 要求的变量ID
     };
-    cubes?: { matrix: boolean[][][] };
+    cubes?: { 
+      // 3D矩阵: matrix[y][z][x] (y是高度)
+      // true代表有方块
+      matrix: boolean[][][]; 
+      size: number; // e.g. 3 (3x3x3 space)
+    };
     matchstick?: { equation: string };
   };
 

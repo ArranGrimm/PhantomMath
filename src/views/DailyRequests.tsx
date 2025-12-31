@@ -5,6 +5,7 @@ import { type Question, QuestionType } from '../features/math/types';
 import { NumPad } from '../components/daytime/requests/NumPad';
 import { LogicQueue } from '../components/daytime/requests/LogicQueue';
 import { LogicAlgebra } from '../components/daytime/requests/LogicAlgebra';
+import { LogicSpatialCube } from '../components/daytime/requests/LogicSpatialCube';
 import { XMarkIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 
 interface DailyRequestsProps {
@@ -96,21 +97,26 @@ export const DailyRequests: React.FC<DailyRequestsProps> = ({ onBack }) => {
                   </div>
                 </div>
 
-                {/* 逻辑题可视化组件 - Queue */}
+                {/* 可视化组件渲染区 */}
                 {currentQuestion.type === QuestionType.LOGIC_QUEUE && currentQuestion.visualData?.queue && (
                   <div className="mb-6 w-full">
                      <LogicQueue visualData={currentQuestion.visualData.queue} />
                   </div>
                 )}
 
-                {/* 逻辑题可视化组件 - Algebra */}
                 {currentQuestion.type === QuestionType.ALGEBRA_SHAPE && currentQuestion.visualData?.algebra && (
                   <div className="mb-6 w-full">
                      <LogicAlgebra visualData={currentQuestion.visualData.algebra} />
                   </div>
                 )}
+                
+                {currentQuestion.type === QuestionType.SPATIAL_CUBE && currentQuestion.visualData?.cubes && (
+                  <div className="mb-6 w-full">
+                     <LogicSpatialCube visualData={currentQuestion.visualData.cubes} />
+                  </div>
+                )}
 
-                {/* 用户输入框 (显示屏) - Desktop View also needs it here or somewhere prominent */}
+                {/* 用户输入框 (显示屏) */}
                 <div className={`
                   w-full h-16 bg-black border-2 flex items-center justify-end px-4 text-3xl font-mono tracking-widest mb-4
                   transition-colors duration-300
@@ -137,7 +143,6 @@ export const DailyRequests: React.FC<DailyRequestsProps> = ({ onBack }) => {
 
         {/* Right Panel: NumPad (Fixed at bottom on Mobile, Side on Desktop) */}
         <div className="w-full md:w-96 md:border-l md:border-gray-800 bg-black/95 md:bg-neutral-900/50 flex-shrink-0 z-20">
-             {/* Desktop: Centered vertically. Mobile: It's just there at the bottom */}
              <div className="h-full flex flex-col justify-end md:justify-center p-2 md:p-6">
                 <NumPad 
                   onInput={handleInput} 

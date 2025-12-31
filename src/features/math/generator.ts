@@ -51,14 +51,10 @@ const generateQueueLogic = (difficulty: number): Question => {
   let hideMode: 'mask_front' | 'mask_back' | 'show_all' = 'show_all';
 
   if (mode === 'ASK_TOTAL') {
-    // 问总数：我在第X，后面有Y。求总数。
-    // Visual: [Back(Y)] [Me] [???(Front)]
     text = `我在队伍第 ${frontCount + 1} 个，后面还有 ${backCount} 个暗影。请计算总人数。`;
     answer = total;
     hideMode = 'mask_front';
   } else {
-    // 问位置 (逆向)：队伍共Total人，我在从前数第X个。求从后数第几个。
-    // Visual: [???(Back)] [Me] [Front(X-1)]
     text = `队伍共 ${total} 人。从前往后数我在第 ${frontCount + 1} 个。从后往前数我在第几个？`;
     answer = backCount + 1;
     hideMode = 'mask_back';
@@ -130,14 +126,82 @@ const generateAlgebra = (difficulty: number): Question => {
   };
 };
 
+// ----------------------------------------------------------------------
+// 4. 空间方块生成器 (Spatial Cubes)
+// ----------------------------------------------------------------------
+const generateSpatialCubes = (difficulty: number): Question => {
+  // 定义空间大小：Lv1=3x3x3
+  const size = 3;
+  const matrix: boolean[][][] = Array(size).fill(null).map(() => 
+    Array(size).fill(null).map(() => Array(size).fill(false))
+  );
+
+  // 1. 生成堆叠
+  // 规则：不能悬空。每个位置 (x, z) 都有一个高度 h。
+  let totalCubes = 0;
+  
+  for (let x = 0; x < size; x++) {
+    for (let z = 0; z < size; z++) {
+      // 随机高度 1~size, 但要有一定几率是0(空)
+      let height = Math.floor(Math.random() * (size + 1)); 
+      
+      // 确保至少有一个方块
+      if (totalCubes === 0 && x === size-1 && z === size-1) height = 1;
+
+      for (let y = 0; y < height; y++) {
+        matrix[y]![z]![x] = true;
+        totalCubes++;
+      }
+    }
+  }
+
+  // 2. 模式选择：COUNT_TOTAL vs MISSING_CUBES
+  const mode = Math.random() > 0.5 ? 'COUNT_TOTAL' : 'MISSING_CUBES'; 
+  
+  let text = '';
+  let answer = 0;
+
+  if (mode === 'COUNT_TOTAL') {
+    text = `空间扫描：这堆物资一共有多少个箱子？(包括看不见的)`;
+    answer = totalCubes;
+  } else {
+    // Missing Cubes: 还需要几个才能填满 3x3x3?
+    const maxCapacity = size * size * size; // 27
+    const missing = maxCapacity - totalCubes;
+    text = `物资缺失：至少再添加几个箱子，才能拼成一个完整的大正方体 (${size}x${size}x${size})？`;
+    answer = missing;
+  }
+
+  return {
+    id: generateId(),
+    type: QuestionType.SPATIAL_CUBE,
+    difficulty: difficulty as any,
+    text,
+    visualData: {
+      cubes: {
+        matrix,
+        size
+      }
+    },
+    answer,
+    validate: (input) => Number(input) === answer,
+    rewards: {
+      coins: 30 * difficulty,
+      cards: answer.toString().split('')
+    }
+  };
+};
+
 export const generateQuestion = (type?: QuestionType, difficulty: number = 1): Question => {
   let selectedType = type;
   
   if (!selectedType) {
     const rand = Math.random();
-    if (rand < 0.5) selectedType = QuestionType.CALCULATION;
-    else if (rand < 0.75) selectedType = QuestionType.LOGIC_QUEUE;
-    else selectedType = QuestionType.ALGEBRA_SHAPE;
+    // 均衡概率
+    if (rand < 0.3) selectedType = QuestionType.CALCULATION;
+    else if (rand < 0.55) selectedType = QuestionType.LOGIC_QUEUE;
+    else if (rand < 0.8) selectedType = QuestionType.ALGEBRA_SHAPE;
+    else selectedType = QuestionType.SPATIAL_CUBE;
   }
 
   switch (selectedType) {
@@ -145,6 +209,8 @@ export const generateQuestion = (type?: QuestionType, difficulty: number = 1): Q
       return generateQueueLogic(difficulty);
     case QuestionType.ALGEBRA_SHAPE:
       return generateAlgebra(difficulty);
+    case QuestionType.SPATIAL_CUBE:
+      return generateSpatialCubes(difficulty);
     case QuestionType.CALCULATION:
     default:
       return generateCalculation(difficulty);
