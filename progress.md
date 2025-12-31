@@ -13,10 +13,11 @@
     - [x] `SubwayBackground`: 集成视频背景、动态光影与物理吊环动画。
     - [x] `PhoneMenu`: 仿 P5 IM 风格的手机菜单。
     - [x] **Daily Requests (每日委托)**:
-        - [x] `Math Engine`: 基础计算与逻辑排队题生成器 (`src/features/math/`)。
-        - [x] `DailyRequests View`: 沉浸式答题界面。
+        - [x] `Math Engine`: 实现了计算、排队(v2.0)、图形代数三类题型 (`src/features/math/`)。
+        - [x] `DailyRequests View`: 沉浸式答题界面，支持左右分栏自适应布局。
         - [x] `NumPad`: P5 风格自适应数字键盘。
-        - [x] `LogicQueue`: 排队问题可视化组件。
+        - [x] `LogicQueue`: 排队问题可视化组件 (支持智能分组、防剧透遮挡)。
+        - [x] `LogicAlgebra`: 图形代数可视化组件。
 - [ ] **Nighttime Hub (里世界)**: 
     - [ ] `MetaNavTransition`: 红黑同心圆转场动画
     - [ ] 搭建扭曲空间基础布局

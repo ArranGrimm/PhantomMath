@@ -1,20 +1,22 @@
 # 项目状态 (Project Status)
 
 **当前阶段**: Phase 1 - Prototype (Math Engine & Requests)
-**最近更新**: 2025-12-04
+**最近更新**: 2025-12-31
 
 ## 关键进展
-1.  **Math Engine (数学引擎)**: 初步构建了题目生成工厂，支持 `CALCULATION` (基础计算) 和 `LOGIC_QUEUE` (排队逻辑) 两类题型。
-2.  **Daily Requests UI**: 实现了基于手机短信风格的答题界面。
-    *   **NumPad**: 优化了响应式布局，解决了移动端/宽屏下的显示问题。
-    *   **LogicQueue**: 实现了排队题的可视化渲染。
-3.  **Daytime Hub**: 完成了从 Splash -> Subway -> Phone -> Requests 的完整交互链路。
+1.  **Math Engine (数学引擎 v2.0)**: 
+    *   新增 **Algebra Shape (图形代数)** 题型，实现图形化方程求解。
+    *   重构 **Logic Queue (排队逻辑)**，支持 `AskTotal` (求总数) 和 `AskPosition` (求位置) 两种模式，并实现了防剧透的视觉遮挡机制。
+2.  **Daily Requests UI (自适应布局)**: 
+    *   重构了答题页面的布局，桌面端采用左右分栏，移动端优化了滚动区域，解决了键盘遮挡和浏览器缩放问题。
+    *   `LogicQueue` 组件增加了智能分组功能，当人数 > 5 时自动折叠为 Group Box，适应未来高难度扩展。
 
 ## 技术笔记
-- **Math Generator**: 目前难度固定为 Lv1，随机种子逻辑需进一步优化以提升体感随机性。
-- **UI/UX**: `NumPad` 采用底部吸附 + 最大宽度限制策略，确保在 iPad/Desktop 上不失真。
+- **Responsive Layout**: `DailyRequests` 使用 Flex 布局实现了 Desktop/Mobile 的无缝切换。
+- **Logic Visualization**: 排队题的视觉组件实现了精准的数量渲染（Math.min 限制修复）和逻辑自洽的遮挡（Front/Back Mask）。
 
 ## 待办事项 (Backlog)
-- **经济系统接入**: 答对题目的金币/卡牌奖励动画。
-- **更多题型**: 实现“图形代数”和“空间方块”生成器。
-- **MetaNav 转场**: 进入里世界的视觉过渡。
+- **MetaNav 转场**: 点击异世界导航后的视觉过渡（红黑同心圆）。
+- **Nighttime Hub**: 里世界基础框架搭建。
+- **Battle System**: 算式构筑核心玩法。
+- **经济系统**: 答题奖励的持久化存储。

@@ -1,7 +1,7 @@
 export enum QuestionType {
   CALCULATION = 'CALCULATION',   // 基础计算
   LOGIC_QUEUE = 'LOGIC_QUEUE',   // 排队问题
-  ALGEBRA_SHAPE = 'ALGEBRA_SHAPE', // 图形代数 (待实现)
+  ALGEBRA_SHAPE = 'ALGEBRA_SHAPE', // 图形代数
   SPATIAL_CUBE = 'SPATIAL_CUBE',   // 空间方块 (待实现)
   MATCHSTICK = 'MATCHSTICK',       // 火柴棒 (待实现)
 }
@@ -20,7 +20,15 @@ export interface Question {
       total: number;
       targetIndex: number; // 目标在数组中的索引 (0-based)
       direction: 'left' | 'right' | 'front' | 'back';
-      myRole?: string; // e.g. 'Joker'
+      myRole?: string; // e.g. 'Me'
+      // mask_front: 遮挡前排 (用于 Ask Total, 已知前面排名)
+      // mask_back: 遮挡后排 (用于 Ask Back Position, 已知前面排名)
+      hideMode?: 'mask_front' | 'show_all' | 'mask_back'; 
+    };
+    algebra?: {
+      vars: Array<{ id: string, icon: string, value: number }>; // 变量定义
+      formulas: Array<{ left: string[], result: number }>; // 算式列表
+      targetVarId: string; // 要求的变量ID
     };
     cubes?: { matrix: boolean[][][] };
     matchstick?: { equation: string };
@@ -38,4 +46,3 @@ export interface Question {
   // 正确答案 (用于调试或提示)
   answer: string | number;
 }
-
